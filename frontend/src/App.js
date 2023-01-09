@@ -1,9 +1,16 @@
-import "./App.css";
+import Routing from "./routes/Routing";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import setupAxios from "./setupAxios";
+import axios from "axios";
 
 function App() {
+  //Setting axios
+  setupAxios(axios);
   return (
     <div>
-      <h1>DecoTecks task</h1>
+      <Routing />
+      <ToastContainer />
     </div>
   );
 }

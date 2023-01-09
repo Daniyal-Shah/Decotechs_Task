@@ -2,6 +2,7 @@ import AssetsModel from "../models/assets.model.js";
 import TransactionsModel from "../models/transactions.model.js";
 import UserModel from "../models/users.model.js";
 import { getJwtToken } from "../services/jwt.js";
+import globalServices from "../services/global.services.js";
 
 const signup_user = async (payload) => {
   const isExisting = await UserModel.findOne({ email: payload.email });
@@ -33,7 +34,7 @@ const login_user = async (payload) => {
   const authUser = await UserModel.findOne({ email }).populate("assets");
   // if Email doesn't exist or requesting user isn't agent or password not matching
   if (!authUser || !(await authUser.matchPassword(password))) {
-    services.throwCustomError("Wrong credentials. Try again", 400);
+    globalServices.throwCustomError("Wrong credentials. Try again", 400);
   }
 
   return {
