@@ -19,6 +19,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, "Password is required"],
   },
+  assets: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "assets",
+  },
 });
 
 userSchema.methods.matchPassword = async function (enteredPassword) {
