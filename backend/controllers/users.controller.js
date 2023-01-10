@@ -39,6 +39,8 @@ const login_user = async (payload) => {
 
   return {
     message: "Login Successfull",
+    userid: authUser._id,
+    user: authUser,
     token: getJwtToken(authUser._id),
   };
 };
@@ -104,6 +106,43 @@ const create_transaction = async (userId, payload) => {
     assets,
   };
 };
+
+const delete_transaction = async (userId, transactionId) => {
+  const user = await UserModel.findById(userId);
+  const assets = await AssetsModel.findById(user.assets);
+
+  const transaction = await TransactionsModel.findById(transactionId);
+  assets[transaction.method_of_payment] =
+    assets[transaction.method_of_payment] + transaction.amount;
+  assets.save();
+
+  transaction.remove();
+
+  return {
+    message: "Transaction Deleted Successfully",
+  };
+};
+
+const update_transaction = async (userId, transactionId, payload) => {
+  const user = await UserModel.findById(userId);
+  const assets = await AssetsModel.findById(user.assets);
+
+  const transaction = await TransactionsModel.findById(transactionId);
+  assets[transaction.method_of_payment] =
+    assets[transaction.method_of_payment] + transaction.amount;
+  assets.save();
+
+  transaction.remove();
+
+  const newTransaction = await TransactionsModel.create({
+    user: userId,
+    ...payload,
+  });
+  return {
+    message: "Transaction Deleted Successfully",
+  };
+};
+
 export default {
   signup_user,
   login_user,
@@ -111,4 +150,6 @@ export default {
   create_transaction,
   get_assets,
   get_transactions,
+  delete_transaction,
+  update_transaction,
 };

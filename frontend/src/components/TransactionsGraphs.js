@@ -35,7 +35,7 @@ function TransactionsGraphs({ data }) {
 
   return (
     <div className="d-flex flex-column justify-content-center align-items-center my-5">
-      <h1 className="display-5 mb-5">Transactions over months</h1>
+      <h1 className="display-5 mb-5">Transactions over all months </h1>
       <LineChart width={900} height={400} data={filterData()}>
         <Line type="monotone" dataKey="amount" stroke="#8884d8" />
         <CartesianGrid stroke="#ccc" />

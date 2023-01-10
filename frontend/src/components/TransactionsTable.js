@@ -1,8 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { toast } from "react-toastify";
+import { getAllTransactions } from "../api/users.api";
 import TransactionItem from "./TransactionItem";
 import TransactionsGraphs from "./TransactionsGraphs";
 
-function TransactionsTable() {
+function TransactionsTable(props) {
+  const {
+    allTransactions,
+    setAllTransactions,
+    refreshAssets,
+    setRefreshAssets,
+    refreshTransactions,
+    setRefreshTransactions,
+  } = props;
+
   var monthsList = [
     { label: "Janurary", value: "01" },
     { label: "February", value: "02" },
@@ -17,56 +28,21 @@ function TransactionsTable() {
     { label: "November", value: "11" },
     { label: "December", value: "12" },
   ];
-  const [selectedMonth, setCurrentMonth] = useState("none");
-  let allData = [
-    {
-      amount: 1200,
-      category: "Shopping",
-      description: "Testing",
-      method_of_payment: "Cash",
-      createdAt: "2023-01-09T16:51:35.595+00:00",
-    },
-    {
-      amount: 9900,
-      category: "Rent",
-      description: "Testing",
-      method_of_payment: "Bank",
-      createdAt: "2023-02-09T16:51:35.595+00:00",
-    },
-    {
-      amount: 1200,
-      category: "Tour",
-      description: "Testing",
-      method_of_payment: "Cash",
-      createdAt: "2023-01-09T16:51:35.595+00:00",
-    },
-    {
-      amount: 200,
-      category: "Shopping",
-      description: "Testing",
-      method_of_payment: "Cash",
-      createdAt: "2023-08-09T16:51:35.595+00:00",
-    },
-  ];
+  const [selectedMonth, setCurrentMonth] = useState("January");
+  const [month, setMonth] = useState({ label: "Janurary", value: "01" });
 
-  const [data, setData] = useState(allData);
   const filterMonthWise = (e) => {
+    setRefreshTransactions(!refreshTransactions);
     if (e.target.value == "all") {
       setCurrentMonth(e.target.value);
-      setData(allData);
     } else {
       setCurrentMonth(e.target.value);
-      let month = {};
       monthsList.map((item) => {
         if (item.label == e.target.value) {
-          month = item;
+          console.log(item);
+          setMonth(item);
         }
       });
-
-      let filteredData = allData.filter(
-        (item) => item.createdAt.split("T")[0].split("-")[1] == month.value
-      );
-      setData(filteredData);
     }
   };
 
@@ -88,7 +64,6 @@ function TransactionsTable() {
               value={selectedMonth}
               onChange={filterMonthWise}
             >
-              <option value={"all"}> All</option>
               {monthsList.map((item) => (
                 <option value={item.label}>{item.label}</option>
               ))}
@@ -96,11 +71,20 @@ function TransactionsTable() {
           </div>
         </div>
       </div>
-      {data.map((item) => (
-        <TransactionItem data={item} />
-      ))}
+      {allTransactions.map(
+        (item) =>
+          item.createdAt.split("T")[0].split("-")[1] == month.value && (
+            <TransactionItem
+              refreshTransactions={refreshTransactions}
+              setRefreshTransactions={setRefreshTransactions}
+              refreshAssets={refreshAssets}
+              setRefreshAssets={setRefreshAssets}
+              data={item}
+            />
+          )
+      )}
 
-      <TransactionsGraphs data={data} />
+      <TransactionsGraphs data={allTransactions} />
     </div>
   );
 }

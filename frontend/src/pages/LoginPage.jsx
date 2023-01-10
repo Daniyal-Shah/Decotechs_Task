@@ -21,6 +21,10 @@ function LoginPage() {
     try {
       const { data } = await loginUser({ email, password });
       localStorage.setItem("user_token", data.response.token);
+      localStorage.setItem(
+        "user_name",
+        data.response.user.firstName + " " + data.response.user.lastName
+      );
       toast.success("You are logged in.");
       navigate("/dashboard");
     } catch (error) {

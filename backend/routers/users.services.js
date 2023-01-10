@@ -60,3 +60,28 @@ export const createUserTransaction = asyncHandler(async (req, res) => {
     globalServices.addStatusCodeWithError(error, res);
   }
 });
+
+export const deleteUserTransaction = asyncHandler(async (req, res) => {
+  try {
+    const response = await UserController.delete_transaction(
+      req.user._id,
+      req.params.id
+    );
+    globalServices.successResponse(res, response);
+  } catch (error) {
+    globalServices.addStatusCodeWithError(error, res);
+  }
+});
+
+export const updateUserTransaction = asyncHandler(async (req, res) => {
+  try {
+    const response = await UserController.update_transaction(
+      req.user._id,
+      req.params.id,
+      req.body
+    );
+    globalServices.successResponse(res, response);
+  } catch (error) {
+    globalServices.addStatusCodeWithError(error, res);
+  }
+});

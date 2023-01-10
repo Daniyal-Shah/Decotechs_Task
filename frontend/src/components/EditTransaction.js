@@ -1,13 +1,20 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import FeatherIcon from "feather-icons-react";
-import { createTransactions } from "../api/users.api";
+import { updateTransaction } from "../api/users.api";
 
-function TransactionModal({ setTransactionModal }) {
-  const [amount, setAmount] = useState("");
-  const [category, setCategory] = useState("");
-  const [description, setDescription] = useState("");
-  const [method_of_payment, setMOP] = useState("");
+function EditTransaction({
+  setEditTransactionModal,
+  data,
+  setRefreshTransactions,
+  refreshTransactions,
+  setRefreshAssets,
+  refreshAssets,
+}) {
+  const [amount, setAmount] = useState(data.amount || "");
+  const [category, setCategory] = useState(data.category || "");
+  const [description, setDescription] = useState(data.description || "");
+  const [method_of_payment, setMOP] = useState(data.method_of_payment || "");
   const [categoriesOptions, setCategoriesOptions] = useState([
     "Food",
     "Fuel",
@@ -37,17 +44,17 @@ function TransactionModal({ setTransactionModal }) {
           setCategoriesOptions([...categoriesOptions, category]);
         }
 
-        console.log(payload);
-        const { data } = await createTransactions(payload);
-        console.log(data.response);
-
-        toast.success("Transaction created successfully");
-        setTransactionModal(false);
+        await updateTransaction(data._id, payload);
+        toast.success("Transaction Updated successfully");
+        setRefreshTransactions(!refreshTransactions);
+        setRefreshAssets(!refreshAssets);
+        setEditTransactionModal(false);
       } else {
         toast.error("All fields are must except description");
       }
     } catch (error) {
       toast.error("Something went wrong");
+      console.log(error);
     }
   };
 
@@ -63,12 +70,20 @@ function TransactionModal({ setTransactionModal }) {
           top: 10,
         }}
         onClick={() => {
-          setTransactionModal(false);
+          setEditTransactionModal(false);
         }}
       />
 
       <div className="shadow p-5 mb-5 bg-body rounded">
-        <h3 className="text-center mb-3">Create A New Transaction</h3>
+        <h3 className="text-center mb-3">Edit Transaction</h3>
+        <div className="my-1">
+          <p
+            className="text-center"
+            style={{ fontSize: 10, fontWeight: "bolder" }}
+          >
+            Transaction id : {data._id}
+          </p>
+        </div>
         <div className="mb-3">
           <label>Amount</label>
           <input
@@ -165,7 +180,7 @@ function TransactionModal({ setTransactionModal }) {
 
         <div className="d-grid">
           <button className="btn btn-primary" onClick={handleSubmit}>
-            Create
+            Update Transaction
           </button>
         </div>
       </div>
@@ -173,4 +188,4 @@ function TransactionModal({ setTransactionModal }) {
   );
 }
 
-export default TransactionModal;
+export default EditTransaction;

@@ -20,6 +20,8 @@ router
 
   // Transactions
   .get("/transactions", UserServices.getUserTransactions)
-  .post("/transactions", UserServices.createUserTransaction);
+  .post("/transactions", UserServices.createUserTransaction)
+  .delete("/transactions/:id", UserServices.deleteUserTransaction)
+  .patch("/transactions/:id", UserServices.updateUserTransaction);
 
 export default router;
