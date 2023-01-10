@@ -21,6 +21,15 @@ To run frontend, enter following terminal commands in frontend directory
 
 Outputs images :
 ------------------
+
+
+Login
+![login](https://user-images.githubusercontent.com/51289334/211548313-e8789a10-8389-44b9-a700-2210a3b1f3fd.png)
+
+SignUp 
+![signup](https://user-images.githubusercontent.com/51289334/211548307-6e85e4c1-cefa-4454-b8f7-c94ab353493e.png)
+
+Dashboard
 ![plain](https://user-images.githubusercontent.com/51289334/211547307-f320daea-d8d1-487b-87bc-1456d7555119.png)
 
  Updating Assets
