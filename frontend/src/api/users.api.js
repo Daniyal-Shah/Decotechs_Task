@@ -11,9 +11,9 @@ export async function loginUser(payload) {
 }
 
 export async function getAssests() {
-  return await axios.post(URL + "/assests");
+  return await axios.get(URL + "/assests");
 }
 
 export async function getAllTransactions() {
-  return await axios.post(URL + "/transactions");
+  return await axios.get(URL + "/transactions");
 }

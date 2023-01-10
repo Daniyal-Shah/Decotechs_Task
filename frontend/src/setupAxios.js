@@ -10,17 +10,4 @@ export default function setupAxios(axios) {
     },
     (err) => Promise.reject(err)
   );
-
-  //Axios Response
-  //   axios.interceptors.response.use(
-  //     (response) => {
-  //       return {
-  //         ...response.data,
-  //         apiStatus: response.status,
-  //       };
-  //     },
-  //     function (error) {
-  //       return Promise.reject(error);
-  //     }
-  //   );
 }
